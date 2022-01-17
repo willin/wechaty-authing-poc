@@ -11,7 +11,7 @@ export default async function messageHandler(
 ): Promise<void> {
   if (
     // 只处理本群消息
-    !message.room()?.id !== '19115444039@chatroom' ||
+    message.room()?.id !== '19115444039@chatroom' ||
     // 只处理文本消息
     message.type() !== MessageType.Text ||
     // 只处理 @ 提及消息

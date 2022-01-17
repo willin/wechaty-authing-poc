@@ -18,6 +18,10 @@ Start up:
 npm start
 ```
 
+## 说明
+
+POC 项目中会出现大量 Hard Coding 的代码。在后续的开发中，我们会尽量避免这种硬编码。
+
 ## 以微信群作为上游数据源
 
 修改 `src/index.ts`：

@@ -1,0 +1,35 @@
+{
+  "name": "wechaty-authing-poc",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "authing-js-sdk": "^4.23.13",
+    "qrcode-terminal": "^0.12.0",
+    "wechaty": "0.60",
+    "wechaty-puppet-padlocal": "^0.4.2"
+  },
+  "devDependencies": {
+    "@willin/eslint-config": "^0.0.6",
+    "eslint": "^8.7.0",
+    "eslint-plugin-import": "^2.25.4",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Authing/wechaty-authing-poc.git"
+  },
+  "keywords": [],
+  "author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Authing/wechaty-authing-poc/issues"
+  },
+  "homepage": "https://github.com/Authing/wechaty-authing-poc#readme"
+}

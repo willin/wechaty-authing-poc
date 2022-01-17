@@ -9,6 +9,8 @@ export default async function roomJoin(
   inviteeList: Contact[],
   inviter: Contact
 ): Promise<void> {
+  // 只处理本群消息
+  if (room.id !== '19115444039@chatroom') return;
   log.info(this.name(), 'Room Join');
   log.info(this.name(), room);
   log.info(this.name(), inviteeList);

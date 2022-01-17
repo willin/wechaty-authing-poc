@@ -7,6 +7,8 @@ export default async function roomLeave(
   room: Room,
   leaverList: Contact[]
 ): Promise<void> {
+  // 只处理本群消息
+  if (room.id !== '19115444039@chatroom') return;
   log.info(this.name(), 'Room Leave');
   log.info(this.name(), room);
   log.info(this.name(), leaverList);

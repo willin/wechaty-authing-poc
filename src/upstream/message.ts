@@ -9,8 +9,14 @@ export default async function messageHandler(
   this: Wechaty,
   message: Message
 ): Promise<void> {
-  // 只处理 @ 提及消息
-  if (!(await message.mentionSelf()) || message.type() !== MessageType.Text)
+  if (
+    // 只处理本群消息
+    !message.room()?.id !== '19115444039@chatroom' ||
+    // 只处理文本消息
+    message.type() !== MessageType.Text ||
+    // 只处理 @ 提及消息
+    !(await message.mentionSelf())
+  )
     return;
   log.info(this.name(), 'Message');
   log.info(this.name(), message);

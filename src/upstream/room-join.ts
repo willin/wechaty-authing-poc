@@ -16,13 +16,10 @@ export default async function roomJoin(
   log.info(this.name(), inviteeList);
   log.info(this.name(), inviter);
   // 未注册用户通知
-  const unRegisteredUsers = await asyncFilter(
-    inviteeList,
-    async (contact: Contact) =>
-      // eslint-disable-next-line no-return-await
-      await authing.users.exists({
-        externalId: contact.id
-      })
+  const unRegisteredUsers = await asyncFilter(inviteeList, (contact: Contact) =>
+    authing.users.exists({
+      externalId: contact.id
+    })
   );
   // 批量注册用户
   await Promise.allSettled(

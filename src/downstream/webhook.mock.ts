@@ -14,7 +14,6 @@ export async function listener(this: Wechaty): Promise<void> {
     (member) => ~deletedUsers.findIndex((user) => user.externalId === member.id)
   );
   log.info(name, `members2Delete: ${members2Delete?.length}`);
-
   log.info(
     name,
     `准备删除成员（注意删除失败的需要放到警告列表中）：\n ${members2Delete

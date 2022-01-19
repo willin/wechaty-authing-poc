@@ -37,10 +37,12 @@ export default async function ready(this: Wechaty): Promise<void> {
     log.info(name, `members2Delete: ${members2Delete.length}`);
     log.info(
       name,
+
       `准备删除成员（注意删除失败的需要放到警告列表中）：\n ${members2Delete
         .map((c) => `${c.name()}(${c.id})`)
         .join('\n')}`
     );
+
     const result = await Promise.allSettled(
       members2Delete?.map((member) => {
         if (member.friend()) {
@@ -58,6 +60,7 @@ export default async function ready(this: Wechaty): Promise<void> {
         !~deletedUsers.findIndex((user) => user.externalId === member.id) &&
         !~users.findIndex((user) => user.externalId === member.id)
     );
+
     log.info(
       name,
       `members2Warning: ${members2Warning1.length + members2Warning2.length}`
@@ -83,6 +86,7 @@ export default async function ready(this: Wechaty): Promise<void> {
         .map((c) => `${c.name()}(${c.id})`)
         .join('\n')}`
     );
+
     await Promise.allSettled(
       members2Invite?.map((member) => room?.add(member))
     );

@@ -23,3 +23,7 @@ export const asyncFilter = async <T>(
 
   return arr.filter((_v, index) => results[index]);
 };
+
+export const sleep = (time: number): Promise<void> =>
+  // eslint-disable-next-line no-promise-executor-return
+  new Promise((resolve) => setTimeout(resolve, time));

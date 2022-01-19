@@ -1,6 +1,7 @@
 import type { Contact, Wechaty } from 'wechaty';
 import { log } from 'wechaty';
 import authing from '../lib/authing';
+import { listener } from './webhook.mock';
 
 export default async function ready(this: Wechaty): Promise<void> {
   // 主动拉取 Authing 用户列表
@@ -16,7 +17,6 @@ export default async function ready(this: Wechaty): Promise<void> {
 
   // 判断群聊是否存在
   const { name } = await authing.userpool.detail();
-  const name = '创建群测试2';
   const room = await this.Room.find({
     topic: name
   });
@@ -35,18 +35,18 @@ export default async function ready(this: Wechaty): Promise<void> {
         ~deletedUsers.findIndex((user) => user.externalId === member.id)
     );
     log.info(name, `members2Delete: ${members2Delete.length}`);
+    await room.say(
+      `准备删除成员（注意删除失败的需要放到警告列表中）：\n ${members2Delete
+        .map((c) => `${c.name()}(${c.id})`)
+        .join('\n')}`
+    );
+
     const members2Warning = memberList.filter(
       (member) =>
         !~deletedUsers.findIndex((user) => user.externalId === member.id) &&
         !~users.findIndex((user) => user.externalId === member.id)
     );
     log.info(name, `members2Warning: ${members2Warning.length}`);
-
-    await room.say(
-      `准备删除成员（注意删除失败的需要放到警告列表中）：\n ${members2Delete
-        .map((c) => `${c.name()}(${c.id})`)
-        .join('\n')}`
-    );
 
     await room.say(
       `警告需要手动确认状态：\n ${members2Warning
@@ -79,4 +79,6 @@ export default async function ready(this: Wechaty): Promise<void> {
     await newRoom.ready();
     await newRoom.say('自动创建群聊');
   }
+  // 启动侦听钩子
+  listener.bind(this)();
 }

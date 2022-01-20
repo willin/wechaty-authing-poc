@@ -1,17 +1,15 @@
 import type { Wechaty } from 'wechaty';
 import { log } from 'wechaty';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { filterContactUsers } from 'wechaty-authing';
 import { authing } from '../lib/wechaty-authing';
 import { listener } from './crontab';
 
 async function createRoom(this: Wechaty): Promise<void> {
   const name = await authing.getPoolName();
 
-  const users = await authing.getAuthingUsers();
   const allFriends = await this.Contact.findAll();
   // 筛选出用户中的好友
-  const friends = filterContactUsers(allFriends, users);
+  const { registered: friends } = await authing.filterAuthingUsers(allFriends);
   if (friends.length < 2) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setTimeout(createRoom.bind(this), 3e4);

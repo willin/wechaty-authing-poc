@@ -1,6 +1,6 @@
 import { Contact, log, Wechaty } from 'wechaty';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { contactDiff, filterContactUsers } from 'wechaty-authing';
+import { arrayDiff } from 'wechaty-authing';
 import { ContactType } from 'wechaty-puppet';
 import { sleep } from '../lib/utils';
 import { authing } from '../lib/wechaty-authing';
@@ -18,7 +18,7 @@ export async function listener(this: Wechaty): Promise<void> {
     log.verbose(name, `Current group members: ${memberList.length}`);
     const { registered } = await authing.filterAuthingUsers(memberList);
 
-    const members2Delete = contactDiff(memberList, registered);
+    const members2Delete = arrayDiff(memberList, registered);
     if (members2Delete.length > 0) {
       log.info(name, `members2Delete: ${members2Delete.length}`);
       await room.say(
@@ -50,7 +50,6 @@ export async function listener(this: Wechaty): Promise<void> {
       }
     }
 
-    const users = await authing.getAuthingUsers();
     const allContacts = await this.Contact.findAll();
     const allFriends = allContacts.filter(
       (contact) =>
@@ -59,8 +58,10 @@ export async function listener(this: Wechaty): Promise<void> {
         !SYSTEMIDS.includes(contact.id)
     );
     // 筛选出用户中的好友
-    const friends = filterContactUsers(allFriends, users);
-    // const friends2Delete = filterContactUsers(allFriends, users, false);
+    const { registered: friends } = await authing.filterAuthingUsers(
+      allFriends
+    );
+    // const friends2Delete = unregistered;
     // // 删除异常好友
     // if (friends2Delete.length > 0) {
     //   log.info(
@@ -75,7 +76,7 @@ export async function listener(this: Wechaty): Promise<void> {
     //   );
     // }
     // 检查未入群的好友
-    const members2Invite = contactDiff(friends, memberList);
+    const members2Invite = arrayDiff(friends, memberList);
 
     if (members2Invite.length > 0) {
       // 邀请入群

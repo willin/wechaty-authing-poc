@@ -3,3 +3,4 @@ extends:
   - '@willin'
 rules:
   quotes: [2, 'single', { 'avoidEscape': true }]
+  import/no-unresolved: [2, { ignore: ['wechaty'] }]

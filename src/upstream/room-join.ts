@@ -1,7 +1,6 @@
 import { log } from 'wechaty';
 import type { Wechaty, Room, Contact } from 'wechaty';
-import authing from '../lib/authing';
-import { asyncFilter, getGenderFromContact } from '../lib/utils';
+import { authing } from '../lib/wechaty-authing';
 
 export default async function roomJoin(
   this: Wechaty,
@@ -10,29 +9,15 @@ export default async function roomJoin(
   inviter: Contact
 ): Promise<void> {
   // 只处理本群消息
-  if (room.id !== '19115444039@chatroom') return;
-  log.info(this.name(), 'Room Join');
-  log.info(this.name(), room);
-  log.info(this.name(), inviteeList);
-  log.info(this.name(), inviter);
+  if (room.id !== (process.env.WECHATY_ROOM_ID || '19115444039@chatroom'))
+    return;
+  log.info('Room Join', room);
+  log.verbose('inviteeList', inviteeList);
+  log.verbose('inviter', inviter);
   // 未注册用户通知
-  const unRegisteredUsers = await asyncFilter(inviteeList, (contact: Contact) =>
-    authing.users.exists({
-      externalId: contact.id
-    })
-  );
+  const { unregistered } = await authing.filterAuthingUsers(inviteeList);
+  log.info('Notify unregistered', unregistered);
+  await room.say('请 @我 发送你的手机号码', ...unregistered);
   // 批量注册用户
-  await Promise.allSettled(
-    inviteeList.map((contact: Contact) =>
-      authing.users.create({
-        registerSource: ['wechaty'],
-        externalId: contact.id,
-        username: contact.id,
-        nickname: contact.name(),
-        gender: getGenderFromContact(contact.gender())
-      })
-    )
-  );
-
-  await room.say('请 @我 发送你的手机号码', ...unRegisteredUsers);
+  await authing.createAuthingUsers(unregistered);
 }

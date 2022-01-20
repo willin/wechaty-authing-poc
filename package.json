@@ -10,7 +10,8 @@
   "dependencies": {
     "authing-js-sdk": "^4.23.13",
     "qrcode-terminal": "^0.12.0",
-    "wechaty": "0.60",
+    "wechaty": "0.75",
+    "wechaty-plugin-contrib": "0.19",
     "wechaty-puppet-padlocal": "^0.4.2"
   },
   "devDependencies": {

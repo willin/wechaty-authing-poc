@@ -2,7 +2,7 @@ import type { Friendship, Wechaty } from 'wechaty';
 import { log } from 'wechaty';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { FriendshipType } from 'wechaty-puppet';
-import authing from '../lib/authing';
+import { authing } from '../lib/wechaty-authing';
 import { sleep } from '../lib/utils';
 
 export default async function ready(
@@ -15,14 +15,10 @@ export default async function ready(
   if (!phone) return;
   log.info('Friendship', phone);
 
-  const exists = await authing.users.exists({ phone });
+  const exists = await authing.checkPhone(phone);
   if (!exists) return;
   await friendship.accept();
   await sleep(2000);
   log.info('Friendship', friendship.contact().id);
-  const { name } = await authing.userpool.detail();
-  const room = await this.Room.find({
-    topic: name
-  });
-  await room?.add(friendship.contact());
+  await authing.bindPhoneContact(phone, friendship.contact());
 }

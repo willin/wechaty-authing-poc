@@ -1,5 +1,7 @@
-import { Contact, log, ScanStatus, Wechaty } from 'wechaty';
+import { log, Wechaty, qrcodeValueToImageUrl, ScanStatus } from 'wechaty';
+import type { Contact } from 'wechaty';
 import { PuppetPadlocal } from 'wechaty-puppet-padlocal';
+import { DingDong } from 'wechaty-plugin-contrib';
 import QRCode from 'qrcode-terminal';
 
 /**
@@ -18,18 +20,24 @@ export function createBot(token = '', name = 'AuthingWechatyBot'): Wechaty {
     puppet
   });
 
+  bot.use(
+    DingDong({
+      mention: true,
+      ding: '在吗',
+      dong: '在呢'
+    })
+  );
+
   bot
     .on('scan', (qrcode: string, status: ScanStatus) => {
       if (status === ScanStatus.Waiting && qrcode) {
-        QRCode.generate(qrcode, { small: true });
-        const qrcodeImageUrl = [
-          'https://api.qrserver.com/v1/create-qr-code/?data=',
-          encodeURIComponent(qrcode)
-        ].join('');
         log.info(
           bot.name(),
-          `onScan: ${ScanStatus[status]}(${status}) - ${qrcodeImageUrl}`
+          'onScan() [%s] %s\nScan QR Code above to log in.',
+          status,
+          qrcodeValueToImageUrl(qrcode)
         );
+        QRCode.generate(qrcode, { small: true });
       } else {
         log.info(bot.name(), `onScan: ${ScanStatus[status]}(${status})`);
       }

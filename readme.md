@@ -9,7 +9,8 @@ Set env:
 ```bash
 export AUTHING_USER_POOL_ID="xxx"
 export AUTHING_USER_POOL_SECRET="xxx"
-export PADLOCAL_TOKEN="xxx"
+export WECHATY_PADLOCAL_TOKEN="xxx"
+export WECHATY_ROOM_ID="19115444039@chatroom"
 ```
 
 Start up:

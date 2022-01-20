@@ -1,2 +1,2 @@
-import './upstream';
-// import './downstream';
+// import './upstream';
+import './downstream';

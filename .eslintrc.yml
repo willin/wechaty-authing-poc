@@ -1,6 +1,9 @@
 root: true
 extends:
   - '@willin'
+  - plugin:@typescript-eslint/recommended-requiring-type-checking
+parserOptions:
+  project: ./tsconfig.json
 rules:
   quotes: [2, 'single', { 'avoidEscape': true }]
   import/no-unresolved: [2, { ignore: ['wechaty'] }]

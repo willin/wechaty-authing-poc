@@ -94,5 +94,5 @@ export async function listener(this: Wechaty): Promise<void> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  setTimeout(listener.bind(this), 1e4);
+  setTimeout(listener.bind(this), 3e4);
 }

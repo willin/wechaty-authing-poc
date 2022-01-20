@@ -21,10 +21,4 @@ export default async function ready(
   await sleep(2000);
   log.info('Friendship', friendship.contact().id);
   await authing.bindPhoneContact(phone, friendship.contact());
-  await sleep(2000);
-  const name = await authing.getPoolName();
-  const room = await this.Room.find({
-    topic: name
-  });
-  await room?.add(friendship.contact());
 }

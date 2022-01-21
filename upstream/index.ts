@@ -13,4 +13,5 @@ bot
   .on('room-leave', roomLeave)
   .on('message', message);
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bot.start();

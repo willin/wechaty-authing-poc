@@ -2,15 +2,16 @@
   "name": "wechaty-authing-poc",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:upstream": "ts-node upstream/index.ts",
+    "start:downstream": "ts-node downstream/index.ts",
+    "start:plugin": "ts-node plugin/index.ts"
   },
   "dependencies": {
-    "authing-js-sdk": "^4.23.13",
+    "authing-js-sdk": "^4.23.16",
     "qrcode-terminal": "^0.12.0",
     "wechaty": "0.75",
+    "wechaty-authing": "^1.0.3",
     "wechaty-plugin-contrib": "0.19",
     "wechaty-puppet-padlocal": "^0.4.2"
   },
